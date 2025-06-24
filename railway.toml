@@ -1,0 +1,9 @@
+[build]
+command = "pnpm run build"
+
+[deploy]
+command = "pnpm start"
+
+[variables]
+NODE_ENV = "production"
+PORT = "$PORT" 
