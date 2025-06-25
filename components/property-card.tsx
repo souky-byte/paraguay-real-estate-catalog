@@ -6,14 +6,19 @@ import { Badge } from "@/components/ui/badge"
 import { Button } from "@/components/ui/button"
 import { MapPin, Square, TrendingDown, Eye, Zap } from "lucide-react"
 import Image from "next/image"
+import { BlacklistButton } from "@/components/ui/blacklist-button"
+import { useBlacklist } from "@/hooks/use-blacklist"
 
 interface PropertyCardProps {
   property: Property
   viewMode: "grid" | "list"
   onViewDetails: (property: Property) => void
+  onBlacklist: (propertyId: number) => Promise<void>
 }
 
-export function PropertyCard({ property, viewMode, onViewDetails }: PropertyCardProps) {
+export function PropertyCard({ property, viewMode, onViewDetails, onBlacklist }: PropertyCardProps) {
+  const { isBlacklisted, isLoading: isBlacklisting } = useBlacklist()
+
   const formatPrice = (price: number, currency: string) => {
     if (currency === "Gs." || currency === "PYG") {
       if (price >= 1000000000) {
@@ -112,14 +117,6 @@ export function PropertyCard({ property, viewMode, onViewDetails }: PropertyCard
                 </div>
               )}
 
-              {/* Area Badge */}
-              <div className="absolute bottom-4 left-4">
-                <div className="flex items-center gap-1 bg-white/90 backdrop-blur-sm rounded-lg px-3 py-2 shadow-lg">
-                  <Square className="w-4 h-4 text-gray-700" />
-                  <span className="font-bold text-gray-900 text-sm">{formatArea(property.m2)}</span>
-                </div>
-              </div>
-
               {/* Sold Badge */}
               {property.sold && (
                 <div className="absolute top-4 right-4">
@@ -136,8 +133,12 @@ export function PropertyCard({ property, viewMode, onViewDetails }: PropertyCard
               <div>
                 {/* Badges */}
                 <div className="flex items-center gap-2 mb-3">
-                  <Badge variant="outline" className="text-xs font-medium border-blue-200 text-blue-700 bg-blue-50">
-                    LAND PLOT
+                  <Badge
+                    variant="outline"
+                    className="flex items-center text-xs font-medium border-gray-300 text-gray-800 bg-gray-100"
+                  >
+                    <Square className="w-3 h-3 mr-1.5" />
+                    {formatArea(property.m2)}
                   </Badge>
                   <Badge className="bg-gradient-to-r from-blue-600 to-blue-500 hover:from-blue-700 hover:to-blue-600 text-white text-xs font-medium border-0">
                     {property.zone}
@@ -180,13 +181,23 @@ export function PropertyCard({ property, viewMode, onViewDetails }: PropertyCard
                 </div>
 
                 {/* Action Button */}
-                <Button
-                  onClick={() => onViewDetails(property)}
-                  className="bg-gradient-to-r from-gray-900 to-gray-800 hover:from-gray-800 hover:to-gray-700 text-white px-6 py-3 font-semibold rounded-lg transition-all duration-200 shadow-lg"
-                >
-                  <Eye className="w-4 h-4 mr-2" />
-                  View Details
-                </Button>
+                <div className="flex items-center gap-2">
+                  <BlacklistButton
+                    propertyId={property.id}
+                    onBlacklist={onBlacklist}
+                    isLoading={isBlacklisting(property.id)}
+                    isBlacklisted={isBlacklisted(property.id)}
+                    size="default"
+                    variant="ghost"
+                  />
+                  <Button
+                    onClick={() => onViewDetails(property)}
+                    className="bg-gradient-to-r from-gray-900 to-gray-800 hover:from-gray-800 hover:to-gray-700 text-white px-6 py-3 font-semibold rounded-lg transition-all duration-200 shadow-lg"
+                  >
+                    <Eye className="w-4 h-4 mr-2" />
+                    View Details
+                  </Button>
+                </div>
               </div>
             </div>
           </div>
@@ -238,22 +249,18 @@ export function PropertyCard({ property, viewMode, onViewDetails }: PropertyCard
             </div>
           </div>
         </div>
-
-        {/* Area Badge */}
-        <div className="absolute top-4 right-4 mr-16">
-          <div className="flex items-center gap-1 bg-white/90 backdrop-blur-sm rounded-lg px-3 py-2 shadow-lg">
-            <Square className="w-4 h-4 text-gray-700" />
-            <span className="font-bold text-gray-900 text-sm">{formatArea(property.m2)}</span>
-          </div>
-        </div>
       </div>
 
       {/* Content Section */}
       <CardContent className="p-5">
         {/* Header with badges */}
         <div className="flex items-center gap-2 mb-4">
-          <Badge variant="outline" className="text-xs font-medium border-blue-200 text-blue-700 bg-blue-50">
-            LAND PLOT
+          <Badge
+            variant="outline"
+            className="flex items-center text-xs font-medium border-gray-300 text-gray-800 bg-gray-100"
+          >
+            <Square className="w-3 h-3 mr-1.5" />
+            {formatArea(property.m2)}
           </Badge>
           <Badge className="bg-gradient-to-r from-blue-600 to-blue-500 hover:from-blue-700 hover:to-blue-600 text-white text-xs font-medium border-0">
             {property.zone}
@@ -283,13 +290,23 @@ export function PropertyCard({ property, viewMode, onViewDetails }: PropertyCard
         <p className="text-gray-600 text-sm mb-5 line-clamp-3 leading-relaxed">{property.description_short}</p>
 
         {/* Action Button */}
-        <Button
-          onClick={() => onViewDetails(property)}
-          className="w-full bg-gradient-to-r from-gray-900 to-gray-800 hover:from-gray-800 hover:to-gray-700 text-white font-semibold py-3 rounded-lg transition-all duration-200 shadow-lg"
-        >
-          <Eye className="w-4 h-4 mr-2" />
-          View Details
-        </Button>
+        <div className="flex items-center gap-2">
+          <BlacklistButton
+            propertyId={property.id}
+            onBlacklist={onBlacklist}
+            isLoading={isBlacklisting(property.id)}
+            isBlacklisted={isBlacklisted(property.id)}
+            size="default"
+            variant="ghost"
+          />
+          <Button
+            onClick={() => onViewDetails(property)}
+            className="w-full bg-gradient-to-r from-gray-900 to-gray-800 hover:from-gray-800 hover:to-gray-700 text-white font-semibold py-3 rounded-lg transition-all duration-200 shadow-lg"
+          >
+            <Eye className="w-4 h-4 mr-2" />
+            View Details
+          </Button>
+        </div>
       </CardContent>
     </Card>
   )
