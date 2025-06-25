@@ -76,7 +76,7 @@ export async function getProperties(
           const searchTerm = `%${filters.search}%`
           const result = await sql`
             SELECT * FROM properties 
-            WHERE property_type = 'Terreno' 
+            WHERE property_type = 'Terreno' AND blacklisted = false
             AND zone = ${filters.zone}
             AND (title ILIKE ${searchTerm} OR address ILIKE ${searchTerm} OR description_short ILIKE ${searchTerm})
             ORDER BY (CASE WHEN currency = 'Gs.' THEN price / 8000 ELSE price END) ASC
@@ -87,7 +87,7 @@ export async function getProperties(
           const searchTerm = `%${filters.search}%`
           const result = await sql`
             SELECT * FROM properties 
-            WHERE property_type = 'Terreno' 
+            WHERE property_type = 'Terreno' AND blacklisted = false
             AND (title ILIKE ${searchTerm} OR address ILIKE ${searchTerm} OR description_short ILIKE ${searchTerm})
             ORDER BY (CASE WHEN currency = 'Gs.' THEN price / 8000 ELSE price END) ASC
             LIMIT ${limit} OFFSET ${offset}
@@ -96,7 +96,7 @@ export async function getProperties(
         } else if (filters.zone) {
           const result = await sql`
             SELECT * FROM properties 
-            WHERE property_type = 'Terreno' AND zone = ${filters.zone}
+            WHERE property_type = 'Terreno' AND zone = ${filters.zone} AND blacklisted = false
             ORDER BY (CASE WHEN currency = 'Gs.' THEN price / 8000 ELSE price END) ASC
             LIMIT ${limit} OFFSET ${offset}
           `
@@ -104,7 +104,7 @@ export async function getProperties(
         } else {
           const result = await sql`
             SELECT * FROM properties 
-            WHERE property_type = 'Terreno' 
+            WHERE property_type = 'Terreno' AND blacklisted = false
             ORDER BY (CASE WHEN currency = 'Gs.' THEN price / 8000 ELSE price END) ASC
             LIMIT ${limit} OFFSET ${offset}
           `
@@ -116,7 +116,7 @@ export async function getProperties(
           const searchTerm = `%${filters.search}%`
           const result = await sql`
             SELECT * FROM properties 
-            WHERE property_type = 'Terreno' 
+            WHERE property_type = 'Terreno' AND blacklisted = false
             AND zone = ${filters.zone}
             AND (title ILIKE ${searchTerm} OR address ILIKE ${searchTerm} OR description_short ILIKE ${searchTerm})
             ORDER BY (CASE WHEN currency = 'Gs.' THEN price / 8000 ELSE price END) DESC
@@ -127,7 +127,7 @@ export async function getProperties(
           const searchTerm = `%${filters.search}%`
           const result = await sql`
             SELECT * FROM properties 
-            WHERE property_type = 'Terreno' 
+            WHERE property_type = 'Terreno' AND blacklisted = false
             AND (title ILIKE ${searchTerm} OR address ILIKE ${searchTerm} OR description_short ILIKE ${searchTerm})
             ORDER BY (CASE WHEN currency = 'Gs.' THEN price / 8000 ELSE price END) DESC
             LIMIT ${limit} OFFSET ${offset}
@@ -136,7 +136,7 @@ export async function getProperties(
         } else if (filters.zone) {
           const result = await sql`
             SELECT * FROM properties 
-            WHERE property_type = 'Terreno' AND zone = ${filters.zone}
+            WHERE property_type = 'Terreno' AND zone = ${filters.zone} AND blacklisted = false
             ORDER BY (CASE WHEN currency = 'Gs.' THEN price / 8000 ELSE price END) DESC
             LIMIT ${limit} OFFSET ${offset}
           `
@@ -144,7 +144,7 @@ export async function getProperties(
         } else {
           const result = await sql`
             SELECT * FROM properties 
-            WHERE property_type = 'Terreno' 
+            WHERE property_type = 'Terreno' AND blacklisted = false
             ORDER BY (CASE WHEN currency = 'Gs.' THEN price / 8000 ELSE price END) DESC
             LIMIT ${limit} OFFSET ${offset}
           `
@@ -160,7 +160,7 @@ export async function getProperties(
           const searchTerm = `%${filters.search}%`
           const result = await sql`
             SELECT * FROM properties 
-            WHERE property_type = 'Terreno' 
+            WHERE property_type = 'Terreno' AND blacklisted = false
             AND zone = ${filters.zone}
             AND (title ILIKE ${searchTerm} OR address ILIKE ${searchTerm} OR description_short ILIKE ${searchTerm})
             ORDER BY m2 ASC
@@ -171,7 +171,7 @@ export async function getProperties(
           const searchTerm = `%${filters.search}%`
           const result = await sql`
             SELECT * FROM properties 
-            WHERE property_type = 'Terreno' 
+            WHERE property_type = 'Terreno' AND blacklisted = false
             AND (title ILIKE ${searchTerm} OR address ILIKE ${searchTerm} OR description_short ILIKE ${searchTerm})
             ORDER BY m2 ASC
             LIMIT ${limit} OFFSET ${offset}
@@ -180,7 +180,7 @@ export async function getProperties(
         } else if (filters.zone) {
           const result = await sql`
             SELECT * FROM properties 
-            WHERE property_type = 'Terreno' AND zone = ${filters.zone}
+            WHERE property_type = 'Terreno' AND zone = ${filters.zone} AND blacklisted = false
             ORDER BY m2 ASC
             LIMIT ${limit} OFFSET ${offset}
           `
@@ -188,7 +188,7 @@ export async function getProperties(
         } else {
           const result = await sql`
             SELECT * FROM properties 
-            WHERE property_type = 'Terreno' 
+            WHERE property_type = 'Terreno' AND blacklisted = false
             ORDER BY m2 ASC
             LIMIT ${limit} OFFSET ${offset}
           `
@@ -200,7 +200,7 @@ export async function getProperties(
           const searchTerm = `%${filters.search}%`
           const result = await sql`
             SELECT * FROM properties 
-            WHERE property_type = 'Terreno' 
+            WHERE property_type = 'Terreno' AND blacklisted = false
             AND zone = ${filters.zone}
             AND (title ILIKE ${searchTerm} OR address ILIKE ${searchTerm} OR description_short ILIKE ${searchTerm})
             ORDER BY m2 DESC
@@ -211,7 +211,7 @@ export async function getProperties(
           const searchTerm = `%${filters.search}%`
           const result = await sql`
             SELECT * FROM properties 
-            WHERE property_type = 'Terreno' 
+            WHERE property_type = 'Terreno' AND blacklisted = false
             AND (title ILIKE ${searchTerm} OR address ILIKE ${searchTerm} OR description_short ILIKE ${searchTerm})
             ORDER BY m2 DESC
             LIMIT ${limit} OFFSET ${offset}
@@ -220,7 +220,7 @@ export async function getProperties(
         } else if (filters.zone) {
           const result = await sql`
             SELECT * FROM properties 
-            WHERE property_type = 'Terreno' AND zone = ${filters.zone}
+            WHERE property_type = 'Terreno' AND zone = ${filters.zone} AND blacklisted = false
             ORDER BY m2 DESC
             LIMIT ${limit} OFFSET ${offset}
           `
@@ -228,7 +228,7 @@ export async function getProperties(
         } else {
           const result = await sql`
             SELECT * FROM properties 
-            WHERE property_type = 'Terreno' 
+            WHERE property_type = 'Terreno' AND blacklisted = false
             ORDER BY m2 DESC
             LIMIT ${limit} OFFSET ${offset}
           `
@@ -243,7 +243,7 @@ export async function getProperties(
           const searchTerm = `%${filters.search}%`
           const result = await sql`
             SELECT * FROM properties 
-            WHERE property_type = 'Terreno' 
+            WHERE property_type = 'Terreno' AND blacklisted = false
             AND zone = ${filters.zone}
             AND (title ILIKE ${searchTerm} OR address ILIKE ${searchTerm} OR description_short ILIKE ${searchTerm})
             ORDER BY created_at DESC
@@ -254,7 +254,7 @@ export async function getProperties(
           const searchTerm = `%${filters.search}%`
           const result = await sql`
             SELECT * FROM properties 
-            WHERE property_type = 'Terreno' 
+            WHERE property_type = 'Terreno' AND blacklisted = false
             AND (title ILIKE ${searchTerm} OR address ILIKE ${searchTerm} OR description_short ILIKE ${searchTerm})
             ORDER BY created_at DESC
             LIMIT ${limit} OFFSET ${offset}
@@ -263,7 +263,7 @@ export async function getProperties(
         } else if (filters.zone) {
           const result = await sql`
             SELECT * FROM properties 
-            WHERE property_type = 'Terreno' AND zone = ${filters.zone}
+            WHERE property_type = 'Terreno' AND zone = ${filters.zone} AND blacklisted = false
             ORDER BY created_at DESC
             LIMIT ${limit} OFFSET ${offset}
           `
@@ -271,7 +271,7 @@ export async function getProperties(
         } else {
           const result = await sql`
             SELECT * FROM properties 
-            WHERE property_type = 'Terreno' 
+            WHERE property_type = 'Terreno' AND blacklisted = false
             ORDER BY created_at DESC
             LIMIT ${limit} OFFSET ${offset}
           `
@@ -286,7 +286,7 @@ export async function getProperties(
           const searchTerm = `%${filters.search}%`
           const result = await sql`
             SELECT * FROM properties 
-            WHERE property_type = 'Terreno' 
+            WHERE property_type = 'Terreno' AND blacklisted = false
             AND zone = ${filters.zone}
             AND (title ILIKE ${searchTerm} OR address ILIKE ${searchTerm} OR description_short ILIKE ${searchTerm})
             ORDER BY sale_price_diff_percent ASC
@@ -297,7 +297,7 @@ export async function getProperties(
           const searchTerm = `%${filters.search}%`
           const result = await sql`
             SELECT * FROM properties 
-            WHERE property_type = 'Terreno' 
+            WHERE property_type = 'Terreno' AND blacklisted = false
             AND (title ILIKE ${searchTerm} OR address ILIKE ${searchTerm} OR description_short ILIKE ${searchTerm})
             ORDER BY sale_price_diff_percent ASC
             LIMIT ${limit} OFFSET ${offset}
@@ -306,7 +306,7 @@ export async function getProperties(
         } else if (filters.zone) {
           const result = await sql`
             SELECT * FROM properties 
-            WHERE property_type = 'Terreno' AND zone = ${filters.zone}
+            WHERE property_type = 'Terreno' AND zone = ${filters.zone} AND blacklisted = false
             ORDER BY sale_price_diff_percent ASC
             LIMIT ${limit} OFFSET ${offset}
           `
@@ -314,7 +314,7 @@ export async function getProperties(
         } else {
           const result = await sql`
             SELECT * FROM properties 
-            WHERE property_type = 'Terreno' 
+            WHERE property_type = 'Terreno' AND blacklisted = false
             ORDER BY sale_price_diff_percent ASC
             LIMIT ${limit} OFFSET ${offset}
           `
@@ -328,7 +328,7 @@ export async function getProperties(
       const searchTerm = `%${filters.search}%`
       const result = await sql`
         SELECT * FROM properties 
-        WHERE property_type = 'Terreno' 
+        WHERE property_type = 'Terreno' AND blacklisted = false
         AND zone = ${filters.zone}
         AND (title ILIKE ${searchTerm} OR address ILIKE ${searchTerm} OR description_short ILIKE ${searchTerm})
         ORDER BY price_per_sqm_diff_percent ASC
@@ -339,7 +339,7 @@ export async function getProperties(
       const searchTerm = `%${filters.search}%`
       const result = await sql`
         SELECT * FROM properties 
-        WHERE property_type = 'Terreno' 
+        WHERE property_type = 'Terreno' AND blacklisted = false
         AND (title ILIKE ${searchTerm} OR address ILIKE ${searchTerm} OR description_short ILIKE ${searchTerm})
         ORDER BY price_per_sqm_diff_percent ASC
         LIMIT ${limit} OFFSET ${offset}
@@ -348,7 +348,7 @@ export async function getProperties(
     } else if (filters.zone) {
       const result = await sql`
         SELECT * FROM properties 
-        WHERE property_type = 'Terreno' AND zone = ${filters.zone}
+        WHERE property_type = 'Terreno' AND zone = ${filters.zone} AND blacklisted = false
         ORDER BY price_per_sqm_diff_percent ASC
         LIMIT ${limit} OFFSET ${offset}
       `
@@ -356,7 +356,7 @@ export async function getProperties(
     } else {
       const result = await sql`
         SELECT * FROM properties 
-        WHERE property_type = 'Terreno' 
+        WHERE property_type = 'Terreno' AND blacklisted = false
         ORDER BY price_per_sqm_diff_percent ASC
         LIMIT ${limit} OFFSET ${offset}
       `
@@ -382,7 +382,7 @@ export async function getPropertiesForMap(
     // Get properties with valid coordinates
     const result = await sql`
       SELECT * FROM properties 
-      WHERE property_type = 'Terreno' 
+      WHERE property_type = 'Terreno' AND blacklisted = false
       AND latitude IS NOT NULL 
       AND longitude IS NOT NULL
       AND latitude != 0 
@@ -429,30 +429,30 @@ export async function getPropertyStats() {
 
   try {
     // Only terrenos (land plots)
-    const totalProperties = await sql`SELECT COUNT(*) as count FROM properties WHERE property_type = 'Terreno'`
+    const totalProperties = await sql`SELECT COUNT(*) as count FROM properties WHERE property_type = 'Terreno' AND blacklisted = false`
     const avgPrice =
-      await sql`SELECT AVG(price) as avg_price FROM properties WHERE property_type = 'Terreno' AND price > 0`
-    const avgM2 = await sql`SELECT AVG(m2) as avg_m2 FROM properties WHERE property_type = 'Terreno' AND m2 > 0`
+      await sql`SELECT AVG(price) as avg_price FROM properties WHERE property_type = 'Terreno' AND blacklisted = false AND price > 0`
+    const avgM2 = await sql`SELECT AVG(m2) as avg_m2 FROM properties WHERE property_type = 'Terreno' AND blacklisted = false AND m2 > 0`
     const avgPricePerM2 =
-      await sql`SELECT AVG(price/m2) as avg_price_per_m2 FROM properties WHERE property_type = 'Terreno' AND price > 0 AND m2 > 0`
+      await sql`SELECT AVG(price/m2) as avg_price_per_m2 FROM properties WHERE property_type = 'Terreno' AND blacklisted = false AND price > 0 AND m2 > 0`
 
     const zones = await sql`
       SELECT zone, COUNT(*) as count, AVG(price) as avg_price, AVG(price/m2) as avg_price_per_m2
       FROM properties 
-      WHERE property_type = 'Terreno' AND zone IS NOT NULL AND price > 0 AND m2 > 0
+      WHERE property_type = 'Terreno' AND zone IS NOT NULL AND price > 0 AND m2 > 0 AND blacklisted = false
       GROUP BY zone 
       ORDER BY count DESC 
       LIMIT 10
     `
 
     const soldCount =
-      await sql`SELECT COUNT(*) as count FROM properties WHERE property_type = 'Terreno' AND sold = true`
+      await sql`SELECT COUNT(*) as count FROM properties WHERE property_type = 'Terreno' AND sold = true AND blacklisted = false`
 
     // Best deals (most below market price)
     const bestDeals = await sql`
       SELECT COUNT(*) as count 
       FROM properties 
-      WHERE property_type = 'Terreno' AND price_per_sqm_diff_percent < -10
+      WHERE property_type = 'Terreno' AND price_per_sqm_diff_percent < -10 AND blacklisted = false
     `
 
     return {
@@ -491,7 +491,7 @@ export async function getUniqueValues() {
     const zones = await sql`
       SELECT DISTINCT zone 
       FROM properties 
-      WHERE property_type = 'Terreno' AND zone IS NOT NULL 
+      WHERE property_type = 'Terreno' AND zone IS NOT NULL AND blacklisted = false
       ORDER BY zone
     `
 

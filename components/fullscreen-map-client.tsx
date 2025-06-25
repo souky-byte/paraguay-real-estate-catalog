@@ -6,6 +6,8 @@ import { Icon, LatLngBounds } from "leaflet"
 import Image from "next/image"
 import { motion } from "framer-motion"
 import type { Property } from "@/lib/database"
+import { BlacklistButton } from "@/components/ui/blacklist-button"
+import { useBlacklist } from "@/hooks/use-blacklist"
 
 // Import Leaflet CSS
 import "leaflet/dist/leaflet.css"
@@ -89,6 +91,12 @@ export default function FullscreenMapClient({
   hoveredPropertyId,
   activeLegendFilters = []
 }: FullscreenMapClientProps) {
+  // Blacklist hook
+  const { blacklistProperty, isBlacklisted, isLoading } = useBlacklist({
+    onSuccess: (propertyId) => {
+      console.log(`Property ${propertyId} blacklisted successfully`)
+    }
+  })
   // Get property category helper
   const getPropertyCategory = (diffPercent: number) => {
     return dealCategories.find((cat) => cat.range(diffPercent))?.id || "fair"
@@ -403,20 +411,32 @@ export default function FullscreenMapClient({
                   {/* Description */}
                   <p className="text-gray-600 text-sm line-clamp-3 leading-relaxed">{property.description_short}</p>
                   
-                  {/* Action Button */}
-                  <button 
-                    className="w-full bg-gradient-to-r from-gray-900 to-gray-800 hover:from-gray-800 hover:to-gray-700 text-white text-sm font-semibold py-3 px-4 rounded-lg transition-all duration-200 shadow-lg hover:shadow-xl flex items-center justify-center gap-2"
-                    onClick={(e) => {
-                      e.stopPropagation()
-                      onPropertySelect(property)
-                    }}
-                  >
-                    <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
-                      <path d="M10 12a2 2 0 100-4 2 2 0 000 4z"></path>
-                      <path fillRule="evenodd" d="M.458 10C1.732 5.943 5.522 3 10 3s8.268 2.943 9.542 7c-1.274 4.057-5.064 7-9.542 7S1.732 14.057.458 10zM14 10a4 4 0 11-8 0 4 4 0 018 0z" clipRule="evenodd"></path>
-                    </svg>
-                    View Details
-                  </button>
+                  {/* Action Buttons */}
+                  <div className="flex gap-2">
+                    <button 
+                      className="flex-1 bg-gradient-to-r from-gray-900 to-gray-800 hover:from-gray-800 hover:to-gray-700 text-white text-sm font-semibold py-3 px-4 rounded-lg transition-all duration-200 shadow-lg hover:shadow-xl flex items-center justify-center gap-2"
+                      onClick={(e) => {
+                        e.stopPropagation()
+                        onPropertySelect(property)
+                      }}
+                    >
+                      <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
+                        <path d="M10 12a2 2 0 100-4 2 2 0 000 4z"></path>
+                        <path fillRule="evenodd" d="M.458 10C1.732 5.943 5.522 3 10 3s8.268 2.943 9.542 7c-1.274 4.057-5.064 7-9.542 7S1.732 14.057.458 10zM14 10a4 4 0 11-8 0 4 4 0 018 0z" clipRule="evenodd"></path>
+                      </svg>
+                      View Details
+                    </button>
+                    
+                    <BlacklistButton
+                      propertyId={property.id}
+                      onBlacklist={blacklistProperty}
+                      isLoading={isLoading(property.id)}
+                      isBlacklisted={isBlacklisted(property.id)}
+                      size="default"
+                      variant="ghost"
+                      className="flex-shrink-0"
+                    />
+                  </div>
                 </div>
               </div>
             </Popup>

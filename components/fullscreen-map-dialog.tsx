@@ -20,6 +20,8 @@ import {
   Loader2,
   RotateCcw
 } from "lucide-react"
+import { BlacklistButton } from "@/components/ui/blacklist-button"
+import { useBlacklist } from "@/hooks/use-blacklist"
 
 interface FullscreenMapDialogProps {
   isOpen: boolean
@@ -107,7 +109,7 @@ const DEAL_CATEGORIES = [
 // Dynamically import the map component with bounds callback
 // @ts-ignore: ignore module resolution for dynamic import
 const MapComponent = dynamic(
-  () => import("./fullscreen-map-client"),
+  () => import("@/components/fullscreen-map-client"),
   {
     loading: () => (
       <div className="h-full flex items-center justify-center bg-gradient-to-br from-gray-50 to-gray-100">
@@ -131,6 +133,16 @@ export function FullscreenMapDialog({ isOpen, onClose, onPropertySelect, filters
   const [mapBounds, setMapBounds] = useState<MapBounds | null>(null)
   const [hoveredPropertyId, setHoveredPropertyId] = useState<string | null>(null)
   const debounceTimeoutRef = useRef<NodeJS.Timeout | null>(null)
+
+  // Blacklist hook
+  const { blacklistProperty, isBlacklisted, isLoading: isBlacklistLoading } = useBlacklist({
+    onSuccess: (propertyId) => {
+      console.log(`Property ${propertyId} blacklisted successfully`)
+      // Optionally remove from visible properties
+      setVisibleProperties(prev => prev.filter(p => p.id !== propertyId))
+      setProperties(prev => prev.filter(p => p.id !== propertyId))
+    }
+  })
 
   // Fetch properties for map
   useEffect(() => {
@@ -493,14 +505,28 @@ export function FullscreenMapDialog({ isOpen, onClose, onPropertySelect, filters
                               <span className="text-xs text-gray-600">total</span>
                             </div>
 
-                            {/* Deal badge */}
-                            {category && property.price_per_sqm_diff_percent < -10 && (
-                              <div className="mt-2">
-                                <div className={`inline-block text-xs font-medium px-2 py-1 rounded ${category.bgColor} text-white`}>
-                                  {Math.abs(property.price_per_sqm_diff_percent)}% {category.name}
-                                </div>
+                            {/* Deal badge and Actions */}
+                            <div className="flex items-center justify-between mt-2">
+                              <div className="flex-1">
+                                {category && property.price_per_sqm_diff_percent < -10 && (
+                                  <div className={`inline-block text-xs font-medium px-2 py-1 rounded ${category.bgColor} text-white`}>
+                                    {Math.abs(property.price_per_sqm_diff_percent)}% {category.name}
+                                  </div>
+                                )}
                               </div>
-                            )}
+                              
+                              {/* Blacklist Button */}
+                              <div className="flex-shrink-0 ml-2">
+                                <BlacklistButton
+                                  propertyId={property.id}
+                                  onBlacklist={blacklistProperty}
+                                  isLoading={isBlacklistLoading(property.id)}
+                                  isBlacklisted={isBlacklisted(property.id)}
+                                  size="sm"
+                                  variant="ghost"
+                                />
+                              </div>
+                            </div>
                           </div>
                         </div>
                       )
