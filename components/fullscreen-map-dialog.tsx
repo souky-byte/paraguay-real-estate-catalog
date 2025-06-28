@@ -4,7 +4,7 @@ import React, { useState, useEffect, useMemo, useCallback, useRef } from "react"
 import dynamic from "next/dynamic"
 import Image from "next/image"
 import type { Property } from "@/lib/database"
-import { Dialog, DialogContent } from "@/components/ui/dialog"
+import { Dialog, DialogContent, DialogDescription, DialogTitle } from "@/components/ui/dialog"
 import { Button } from "@/components/ui/button"
 import { Badge } from "@/components/ui/badge"
 import { Card, CardContent } from "@/components/ui/card"
@@ -321,6 +321,8 @@ export function FullscreenMapDialog({ isOpen, onClose, onPropertySelect, filters
   return (
     <Dialog open={isOpen} onOpenChange={onClose}>
       <DialogContent className="max-w-[100vw] max-h-[100vh] w-full h-full p-0 gap-0 !flex !flex-col">
+        <DialogTitle className="sr-only">Fullscreen Property Map</DialogTitle>
+        <DialogDescription className="sr-only">An interactive map to browse and filter properties.</DialogDescription>
         <div className="flex h-full">
           {/* Left Panel - Properties List (50% width) */}
           <div className="w-1/2 bg-white border-r border-gray-200 flex flex-col min-h-0">

@@ -1,6 +1,6 @@
 "use client"
 
-import { useState, useEffect, useCallback } from "react"
+import { useState, useEffect, useCallback, useMemo } from "react"
 import type { Property } from "@/lib/database"
 import { PropertyCard } from "@/components/property-card"
 import { PropertyFilters } from "@/components/property-filters"
@@ -20,6 +20,7 @@ export default function HomePage() {
   const [viewMode, setViewMode] = useState<"grid" | "list">("grid")
   const [selectedProperty, setSelectedProperty] = useState<Property | null>(null)
   const [filters, setFilters] = useState<Record<string, any>>({})
+  const memoizedFilters = useMemo(() => filters, [filters]);
   const [sortField, setSortField] = useState("price_per_sqm_diff_percent")
   const [sortDirection, setSortDirection] = useState("asc")
   const [currentPage, setCurrentPage] = useState(1)
@@ -91,7 +92,7 @@ export default function HomePage() {
     } finally {
       setLoading(false)
     }
-  }, [filters, sortField, sortDirection, currentPage, propertiesPerPage])
+  }, [memoizedFilters, sortField, sortDirection, currentPage, propertiesPerPage])
 
   useEffect(() => {
     fetchProperties()
@@ -307,7 +308,7 @@ export default function HomePage() {
         isOpen={showFullscreenMap}
         onClose={() => setShowFullscreenMap(false)}
         onPropertySelect={handleViewDetails}
-        filters={filters}
+        filters={memoizedFilters}
       />
     </div>
   )
